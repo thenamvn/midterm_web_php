@@ -1,8 +1,9 @@
 <?php
 // Tên file CSV
 $filename = "MOCK_DATA.csv";
+$data = readCSV($filename); // Populate $data with CSV content
 
-// Kiểm tra nếu form được submit để thêm sinh viên
+// check if form is submitted to add student
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy thông tin từ form
     $studentID = $_POST["studentID"];
@@ -12,18 +13,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = DateTime::createFromFormat('Y-m-d', $dob);
     $dob = $date->format('m/d/Y');
     
+    // check if studentID already exists
+    $exists = false;
+    foreach ($data as $row) {
+        if ($row[0] == $studentID) {
+            $exists = true;
+            break;
+        }
+    }
 
-    // Mở file CSV và thêm dòng mới
-    $file = fopen($filename, "a");
-    fputcsv($file, [$studentID, $name, $gender, $dob]);
-    fclose($file);
+    if ($exists) {
+        // alert when studentID already exists
+        echo "<script>alert('Student ID already exists. Please use a different ID.');</script>";
+    } else {
+        // if studentID does not exist, add new student to CSV
+        $file = fopen($filename, "a");
+        fputcsv($file, [$studentID, $name, $gender, $dob]);
+        fclose($file);
 
-    // Chuyển hướng về trang chính sau khi thêm dữ liệu
-    header("Location: index.php");
-    exit();
+        // redirect to index.php after adding data
+        header("Location: index.php");
+        exit();
+    }
 }
 
-// Hàm đọc file CSV và trả về dữ liệu
+// read csv
 function readCSV($filename)
 {
     $data = [];
@@ -38,21 +52,21 @@ function readCSV($filename)
     return $data;
 }
 
-// Hàm xóa sinh viên khỏi CSV
+// delete student from CSV
 function deleteStudent($filename, $studentID)
 {
     if (file_exists($filename)) {
         $data = readCSV($filename);
         $newData = [];
 
-        // Lọc dữ liệu, giữ lại những sinh viên không có studentID được chỉ định
+        // filter data, keep students without the specified studentID
         foreach ($data as $row) {
             if ($row[0] != $studentID) {
                 $newData[] = $row;
             }
         }
 
-        // Ghi lại dữ liệu mới vào CSV
+        // write new data to CSV
         $file = fopen($filename, "w");
         foreach ($newData as $row) {
             fputcsv($file, $row);
@@ -61,17 +75,14 @@ function deleteStudent($filename, $studentID)
     }
 }
 
-// Nếu có yêu cầu xóa sinh viên
 if (isset($_GET["delete"])) {
     $studentID = $_GET["delete"];
     deleteStudent($filename, $studentID);
-
-    // Chuyển hướng về trang chính sau khi xóa dữ liệu
     header("Location: index.php");
     exit();
 }
 
-// Đọc dữ liệu từ CSV để hiển thị lên bảng
+// read data from CSV to display on the table
 $students = readCSV($filename);
 ?>
 
