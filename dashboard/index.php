@@ -5,6 +5,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: index.php");
     exit();
 }
+
 // Tên file CSV
 $filename = "MOCK_DATA.csv";
 $data = readCSV($filename); // Populate $data with CSV content
@@ -32,9 +33,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // alert when studentID already exists
         echo "<script>alert('Student ID already exists. Please use a different ID.');</script>";
     } else {
-        // if studentID does not exist, add new student to CSV
-        $file = fopen($filename, "a");
-        fputcsv($file, [$studentID, $name, $gender, $dob]);
+        // if studentID does not exist, add new student to data array
+        $data[] = [$studentID, $name, $gender, $dob];
+
+        // Sort data by studentID (assuming studentID is the first element in each row)
+        usort($data, function($a, $b) {
+            return $a[0] <=> $b[0]; // So sánh tăng dần theo studentID
+        });
+
+        // Ghi dữ liệu đã sắp xếp lại vào file CSV
+        $file = fopen($filename, "w");
+        foreach ($data as $row) {
+            fputcsv($file, $row);
+        }
         fclose($file);
 
         // redirect to index.php after adding data
@@ -43,20 +54,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// read csv
-function readCSV($filename)
-{
+// Hàm để đọc CSV
+function readCSV($filename) {
     $data = [];
-    if (file_exists($filename)) {
-        if (($file = fopen($filename, "r")) !== FALSE) {
-            while (($row = fgetcsv($file, 1000, ",")) !== FALSE) {
-                $data[] = $row;
-            }
-            fclose($file);
+    if (($file = fopen($filename, "r")) !== false) {
+        while (($row = fgetcsv($file, 1000, ",")) !== false) {
+            $data[] = $row;
         }
+        fclose($file);
     }
     return $data;
 }
+
 
 // delete student from CSV
 function deleteStudent($filename, $studentID)
@@ -194,6 +203,11 @@ $students = readCSV($filename);
                 </form>
             </div>
         </div>
+        <button onclick="topFunction()" id="scrollTopBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+            <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0"/>
+          </svg>
+        </button>
     </div>
 </body>
 <script src="scripts.js"></script>

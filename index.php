@@ -1,75 +1,75 @@
 <?php
-// session_start();
-
-// // Dummy credentials for demonstration
-// $valid_email = "admin";
-// $valid_password = "admin";
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//   $email = $_POST["username"];
-//   $password = $_POST["password"];
-
-//   if ($email == $valid_email && $password == $valid_password) {
-//     $_SESSION["loggedin"] = true;
-//     header("Location: dashboard/index.php");
-//     exit();
-//   } else {
-//     echo "<script>alert('Invalid email or password.');</script>";
-//   }
-// }
-?>
-<?php
 session_start();
 
-// Database credentials
-$servername = "localhost";
-$username = "root"; // Change this to your MySQL username
-$password_db = "Nam@2182004"; // Change this to your MySQL password
-$dbname = "middleterm_web";
-$port = 3306; // Change this if your MySQL server uses a different port
-
-// Function to validate user credentials
-function validate_user($email, $password, $servername, $username, $password_db, $dbname, $port) {
-    try {
-        // Create connection
-        $conn = new mysqli($servername, $username, $password_db, $dbname, $port);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Prepare and execute the query
-        $stmt = $conn->prepare('SELECT * FROM users WHERE username = ? AND pwd = ?');
-        $stmt->bind_param('ss', $email, $password);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Fetch the result
-        $user = $result->fetch_assoc();
-
-        $stmt->close();
-        $conn->close();
-
-        return $user !== null;
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
-        return false;
-    }
-}
+// Dummy credentials for demonstration
+$valid_email = "admin";
+$valid_password = "admin";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["username"];
-    $password = $_POST["password"];
+  $email = $_POST["username"];
+  $password = $_POST["password"];
 
-    if (validate_user($email, $password, $servername, $username, $password_db, $dbname, $port)) {
-        $_SESSION["loggedin"] = true;
-        header("Location: dashboard/index.php");
-        exit();
-    } else {
-        echo "<script>alert('Invalid email or password.');</script>";
-    }
+  if ($email == $valid_email && $password == $valid_password) {
+    $_SESSION["loggedin"] = true;
+    header("Location: dashboard/index.php");
+    exit();
+  } else {
+    echo "<script>alert('Invalid email or password.');</script>";
+  }
 }
+?>
+<?php
+// session_start();
+
+// // Database credentials
+// $servername = "localhost";
+// $username = "root"; // Change this to your MySQL username
+// $password_db = "Nam@2182004"; // Change this to your MySQL password
+// $dbname = "middleterm_web";
+// $port = 3306; // Change this if your MySQL server uses a different port
+
+// // Function to validate user credentials
+// function validate_user($email, $password, $servername, $username, $password_db, $dbname, $port) {
+//     try {
+//         // Create connection
+//         $conn = new mysqli($servername, $username, $password_db, $dbname, $port);
+
+//         // Check connection
+//         if ($conn->connect_error) {
+//             die("Connection failed: " . $conn->connect_error);
+//         }
+
+//         // Prepare and execute the query
+//         $stmt = $conn->prepare('SELECT * FROM users WHERE username = ? AND pwd = ?');
+//         $stmt->bind_param('ss', $email, $password);
+//         $stmt->execute();
+//         $result = $stmt->get_result();
+
+//         // Fetch the result
+//         $user = $result->fetch_assoc();
+
+//         $stmt->close();
+//         $conn->close();
+
+//         return $user !== null;
+//     } catch (Exception $e) {
+//         echo "Error: " . $e->getMessage();
+//         return false;
+//     }
+// }
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     $email = $_POST["username"];
+//     $password = $_POST["password"];
+
+//     if (validate_user($email, $password, $servername, $username, $password_db, $dbname, $port)) {
+//         $_SESSION["loggedin"] = true;
+//         header("Location: dashboard/index.php");
+//         exit();
+//     } else {
+//         echo "<script>alert('Invalid email or password.');</script>";
+//     }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
