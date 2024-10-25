@@ -19,6 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <?php
+
+// using mysql login
 // session_start();
 
 // // Database credentials

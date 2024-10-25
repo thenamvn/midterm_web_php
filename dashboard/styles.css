@@ -191,6 +191,8 @@ label {
     text-align: center; /* Căn trái nội dung */
     border-bottom: 1px solid #ddd; /* Đường viền dưới cho các ô */
     font-size: 1rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 #studentTable th {
