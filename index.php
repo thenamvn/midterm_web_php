@@ -1,24 +1,4 @@
 <?php
-session_start();
-
-// Dummy credentials for demonstration
-$valid_email = "admin";
-$valid_password = "admin";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = $_POST["username"];
-  $password = $_POST["password"];
-
-  if ($email == $valid_email && $password == $valid_password) {
-    $_SESSION["loggedin"] = true;
-    header("Location: dashboard/index.php");
-    exit();
-  } else {
-    echo "<script>alert('Invalid email or password.');</script>";
-  }
-}
-?>
-<?php
 
 // using mysql login
 // session_start();
@@ -92,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-  <form class="form" action="index.php" method="POST">
+  <form class="form" action="login.php" method="POST">
     <p class="form-title">Sign in to Student Manager</p>
     <div class="input-container">
       <input placeholder="Enter username" name="username">
@@ -103,11 +83,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <button class="submit" type="submit">
       Sign in
     </button>
-
-    <!-- <p class="signup-link">
-      No account?
-      <a href="">Sign up</a>
-    </p> -->
   </form>
 </body>
 
