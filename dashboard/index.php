@@ -68,6 +68,7 @@
                         <label for="studentID">StudentID</label>
                         <div class="form-input">
                             <input placeholder="Enter your StudentID" required type="number" name="studentID" id="studentID">
+                            <p style="display: none;" class="error" id="studentIDError"></p>
                         </div>
                     </div>
 
@@ -75,16 +76,17 @@
                         <label for="name">Name</label>
                         <div class="form-input">
                             <input placeholder="Enter your name" name="name" id="name">
+                            <p style="display: none;" class="error" id="nameError"></p>
                         </div>
                     </div>
 
                     <div class="gender-selection">
                         <label>Gender:</label>
                         <p>
-                            <input type="radio" name="gender" value="Male"> Male
+                            <input type="radio" name="gender" value="Male" required> Male
                         </p>
                         <p>
-                            <input type="radio" name="gender" value="Female"> Female
+                            <input type="radio" name="gender" value="Female" required> Female
                         </p>
                     </div>
 

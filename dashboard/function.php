@@ -8,6 +8,11 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 // Tên file CSV
 $filename = "MOCK_DATA.csv";
+if (!file_exists($filename)) {
+    $file = fopen($filename, "w");
+    fclose($file);
+
+}
 $data = readCSV($filename); // Populate $data with CSV content
 
 // check if form is submitted to add student
