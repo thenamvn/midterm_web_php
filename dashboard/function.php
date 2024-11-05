@@ -14,7 +14,7 @@ if (!file_exists($filename)) {
 
 }
 $data = readCSV($filename); // Populate $data with CSV content
-
+$existingStudentID = '';
 // check if form is submitted to add student
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy thông tin từ form
@@ -30,13 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($data as $row) {
         if ($row[0] == $studentID) {
             $exists = true;
+            $existingStudentID = $studentID; // Lưu studentID đã tồn tại
             break;
         }
     }
 
     if ($exists) {
         // alert when studentID already exists
-        echo "<script>alert('Student ID already exists. Please use a different ID.');</script>";
+        $showModal = true;
     } else {
         // if studentID does not exist, add new student to data array
         $data[] = [$studentID, $name, $gender, $dob];

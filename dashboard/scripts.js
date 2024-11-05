@@ -120,3 +120,6 @@ function topFunction() {
     behavior: 'smooth' // Thêm hiệu ứng cuộn mượt
   });
 }
+function closeModal() {
+  document.getElementById('myModal').style.display = 'none';
+}

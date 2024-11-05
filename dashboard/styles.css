@@ -241,14 +241,67 @@ label {
     background-color: transparent;
     border: none;
     border-radius: 0.3rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Thêm hiệu ứng chuyển tiếp */
 }
-#scrollTopBtn:hover svg{
+
+#scrollTopBtn:hover {
+    transform: scale(1.1); /* Tăng kích thước nhẹ khi hover */
+}
+
+#scrollTopBtn:hover svg {
     color: red;
+    animation: blink 0.5s infinite; /* Thêm hiệu ứng nhấp nháy cho SVG */
+}
+
+/* Hiệu ứng nhấp nháy */
+@keyframes blink {
+    0%, 100% {
+        opacity: 1; /* Đầy đủ độ mờ */
+    }
+    50% {
+        opacity: 0.5; /* Giảm độ mờ */
+    }
 }
 .error {
     color: red;
     font-size: 0.8rem;
     margin-top: 0.2rem;
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Ẩn modal theo mặc định */
+    position: fixed; /* Ở vị trí cố định */
+    z-index: 1; /* Đặt trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%; /* Toàn bộ chiều rộng */
+    height: 100%; /* Toàn bộ chiều cao */
+    overflow: auto; /* Cho phép cuộn nếu cần */
+    background-color: rgb(0,0,0); /* Màu nền */
+    background-color: rgba(0,0,0,0.4); /* Màu nền với độ trong suốt */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% từ trên và tự động căn giữa */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Chiều rộng của modal */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 /* Base font size */
 html {
