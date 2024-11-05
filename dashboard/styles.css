@@ -191,6 +191,7 @@ label {
 }
 .delButton:hover {
     background-color: #ca3d38;
+    animation: blink 0.5s infinite; /* Thêm hiệu ứng nhấp nháy cho SVG */
 }
 .logout-icon:hover {
     color: #ca3d38;
