@@ -1,24 +1,11 @@
-+------------------+
-|    index.php     | <--- User Login
-+------------------+
-         |
-         v
-+------------------+
-| dashboard/index.php | <--- Manage Students
-+------------------+
-         |
-         |---> +------------------+
-         |     |  MOCK_DATA.csv   | <--- Student Records
-         |     +------------------+
-         |
-         |---> +------------------+
-         |     |   logout.php     | <--- Logout Functionality
-         |     +------------------+
-         |
-         |---> +------------------+
-         |     |   scripts.js     | <--- JavaScript Functions
-         |     +------------------+
-         |
-         |---> +------------------+
-               |   styles.css     | <--- CSS Styles
-               +------------------+
+/project-root
+│
+├── index.php                # Login page
+├── login.php                # Handles user authentication
+│
+└── dashboard
+    ├── index.php            # Dashboard for managing students
+    ├── logout.php           # Handles user logout
+    ├── function.php         # Contains functions for handling student data
+    ├── scripts.js           # JavaScript for interactivity
+    └── styles.css           # CSS for styling the dashboard

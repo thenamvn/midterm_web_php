@@ -73,7 +73,7 @@
 
 <body>
   <form class="form" action="login.php" method="POST">
-    <p class="form-title">Sign in to Student Manager</p>
+    <p class="form-title">Sign in to WAD2024</p>
     <div class="input-container">
       <input placeholder="Enter username" name="username">
     </div>

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Student Manager</title>
+    <title>WAD2024</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,7 +14,7 @@
         <div class="header">
             <div class="header-content">
                 <div>
-                    <h1>Student Manager</h1>
+                    <h1>WAD2024</h1>
                 </div>
                 <a href="logout.php" class="logout-icon">
                     <i class="fas fa-sign-out-alt"></i> Logout

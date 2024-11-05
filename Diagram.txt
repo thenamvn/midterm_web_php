@@ -4,6 +4,11 @@
          |
          v
 +------------------+
+|    login.php     | <--- Handles Authentication
++------------------+
+         |
+         v
++------------------+
 | dashboard/index.php | <--- Manage Students
 +------------------+
          |
@@ -13,6 +18,10 @@
          |
          |---> +------------------+
          |     |   logout.php     | <--- Logout Functionality
+         |     +------------------+
+         |
+         |---> +------------------+
+         |     |   function.php   | <--- Data Handling Functions
          |     +------------------+
          |
          |---> +------------------+
