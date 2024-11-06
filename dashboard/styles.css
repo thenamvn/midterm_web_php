@@ -16,6 +16,9 @@ body {
     flex-direction: column;
     width: 100%;
 }
+.header-left {
+    display: flex;
+}
 .header-content {
     display: flex;
     position: relative;

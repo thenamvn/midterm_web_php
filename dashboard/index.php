@@ -27,7 +27,13 @@
                 </a>
             </div>
             <div class="header-button">
-                <button class="normalButton" id="showForm">Add Student</button>
+                <div class="header-left">
+                    <button class="normalButton" id="showForm">Add Student</button>
+                    <form action="index.php" method="get" style="display:inline;">
+                        <input type="hidden" name="export" value="1">
+                        <button class="normalButton" type="submit" id="exportCSV">Export CSV</button>
+                    </form>
+                </div>
                 <div class="search-container">
                     <input id="searchInput" placeholder="Search..." class="search-input">
                 </div>

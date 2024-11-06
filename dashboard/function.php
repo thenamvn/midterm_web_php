@@ -72,6 +72,30 @@ function readCSV($filename) {
     return $data;
 }
 
+// Hàm để xuất CSV
+function exportCSV($filename) {
+    // Đọc dữ liệu từ CSV
+    $data = readCSV($filename);
+
+    // Thiết lập tiêu đề cho file CSV
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="students_export.csv"');
+
+    // Mở output stream
+    $output = fopen('php://output', 'w');
+
+    // Ghi tiêu đề cột
+    fputcsv($output, ['StudentID', 'Name', 'Gender', 'Date of Birth']);
+
+    // Ghi dữ liệu sinh viên
+    foreach ($data as $row) {
+        fputcsv($output, $row);
+    }
+
+    // Đóng output stream
+    fclose($output);
+    exit();
+}
 
 // delete student from CSV
 function deleteStudent($filename, $studentID)
@@ -101,6 +125,11 @@ if (isset($_GET["delete"])) {
     deleteStudent($filename, $studentID);
     header("Location: index.php");
     exit();
+}
+
+if (isset($_GET["export"])) {
+    exportCSV($filename);
+    header("Location: index.php");
 }
 
 // read data from CSV to display on the table
