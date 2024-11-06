@@ -17,46 +17,58 @@ $data = readCSV($filename); // Populate $data with CSV content
 $existingStudentID = '';
 // check if form is submitted to add student
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Lấy thông tin từ form
-    $studentID = $_POST["studentID"];
-    $name = $_POST["name"];
-    $gender = $_POST["gender"];
-    $dob = $_POST["dob"];
-    $date = DateTime::createFromFormat('Y-m-d', $dob);
-    $dob = $date->format('m/d/Y');
-
-    // check if studentID already exists
-    $exists = false;
-    foreach ($data as $row) {
-        if ($row[0] == $studentID) {
-            $exists = true;
-            $existingStudentID = $studentID; // Lưu studentID đã tồn tại
-            break;
-        }
-    }
-
-    if ($exists) {
-        // alert when studentID already exists
-        $showModal = true;
+    if (isset($_POST["importCSV"])) {
+        importCSV($filename);
     } else {
-        // if studentID does not exist, add new student to data array
-        $data[] = [$studentID, $name, $gender, $dob];
+        // Lấy thông tin từ form
+        $studentID = $_POST["studentID"] ?? null;
+        $name = $_POST["name"] ?? null;
+        $gender = $_POST["gender"] ?? null;
+        $dob = $_POST["dob"] ?? null;
 
-        // Sort data by studentID (assuming studentID is the first element in each row)
-        usort($data, function($a, $b) {
-            return $a[0] <=> $b[0]; // So sánh tăng dần theo studentID
-        });
+        if ($studentID && $name && $gender && $dob) {
+            $date = DateTime::createFromFormat('Y-m-d', $dob);
+            if ($date) {
+                $dob = $date->format('m/d/Y');
 
-        // Ghi dữ liệu đã sắp xếp lại vào file CSV
-        $file = fopen($filename, "w");
-        foreach ($data as $row) {
-            fputcsv($file, $row);
+                // check if studentID already exists
+                $exists = false;
+                foreach ($data as $row) {
+                    if ($row[0] == $studentID) {
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                if ($exists) {
+                    // alert when studentID already exists
+                    echo "<script>alert('Student ID already exists. Please use a different ID.');</script>";
+                } else {
+                    // if studentID does not exist, add new student to data array
+                    $data[] = [$studentID, $name, $gender, $dob];
+
+                    // Sort data by studentID (assuming studentID is the first element in each row)
+                    usort($data, function($a, $b) {
+                        return $a[0] <=> $b[0]; // So sánh tăng dần theo studentID
+                    });
+
+                    // Ghi dữ liệu đã sắp xếp lại vào file CSV
+                    $file = fopen($filename, "w");
+                    foreach ($data as $row) {
+                        fputcsv($file, $row);
+                    }
+                    fclose($file);
+
+                    // redirect to index.php after adding data
+                    header("Location: index.php");
+                    exit();
+                }
+            } else {
+                echo "<script>alert('Invalid date format.');</script>";
+            }
+        } else {
+            echo "<script>alert('All fields are required.');</script>";
         }
-        fclose($file);
-
-        // redirect to index.php after adding data
-        header("Location: index.php");
-        exit();
     }
 }
 
@@ -95,6 +107,37 @@ function exportCSV($filename) {
     // Đóng output stream
     fclose($output);
     exit();
+}
+
+// Hàm để nhập CSV
+// Hàm để nhập CSV
+function importCSV($filename) {
+    if (isset($_FILES["importFile"]) && $_FILES["importFile"]["error"] == 0) {
+        $importFile = $_FILES["importFile"]["tmp_name"];
+        $data = readCSV($filename);
+        $importData = readCSV($importFile);
+
+        // Merge imported data with existing data
+        $data = array_merge($data, $importData);
+
+        // Sort data by studentID (assuming studentID is the first element in each row)
+        usort($data, function($a, $b) {
+            return $a[0] <=> $b[0]; // So sánh tăng dần theo studentID
+        });
+
+        // Ghi dữ liệu đã sắp xếp lại vào file CSV
+        $file = fopen($filename, "w");
+        foreach ($data as $row) {
+            fputcsv($file, $row);
+        }
+        fclose($file);
+
+        // redirect to index.php after importing data
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "<script>alert('Error uploading file.');</script>";
+    }
 }
 
 // delete student from CSV
